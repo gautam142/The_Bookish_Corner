@@ -1,0 +1,69 @@
+﻿@model IEnumerable<MVC_Project.Models.Author>
+
+@{
+    ViewBag.Title = "Search Author by Name";
+}
+
+<h2>Search Author</h2>
+
+<!-- Search Form -->
+@using (Html.BeginForm("SearchByName", "AuthorsMVC", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label for="searchQuery">Enter Author Name:</label>
+        <input type="text" name="searchQuery" class="form-control" required placeholder="Enter first or last name" />
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Search" class="btn btn-primary" />
+    </div>
+}
+
+<!-- Display the results -->
+@if (Model != null && Model.Any())
+{
+    <h3>Search Results:</h3>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Author ID</th>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Zip</th>
+                <th>Contract</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var author in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => author.au_id)</td>
+                    <td>@Html.DisplayFor(modelItem => author.au_lname)</td>
+                    <td>@Html.DisplayFor(modelItem => author.au_fname)</td>
+                    <td>@Html.DisplayFor(modelItem => author.phone)</td>
+                    <td>@Html.DisplayFor(modelItem => author.address)</td>
+                    <td>@Html.DisplayFor(modelItem => author.city)</td>
+                    <td>@Html.DisplayFor(modelItem => author.state)</td>
+                    <td>@Html.DisplayFor(modelItem => author.zip)</td>
+                    <td>@Html.DisplayFor(modelItem => author.contract)</td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = author.au_id }) |
+                        @Html.ActionLink("Details", "Details", new { id = author.au_id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = author.au_id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (Model != null && !Model.Any())
+{
+    <p>No authors found matching your search query.</p>
+}
